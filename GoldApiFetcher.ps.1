@@ -1,0 +1,49 @@
+#TODO:Trzeba ukryć apikey. Jak to zrobić w ładny sposób?
+
+#Pobrnie informacji o cenie surowca
+function Get-MetalPrice 
+{
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory)]
+        [ValidateSet("XAU","XAG","XPT","XPD")]
+        [Alias("MetalSymbol")]
+        [String]$symbol,
+        
+        [Parameter(Mandatory)]
+        [ValidateSet("PLN","USD","EUR")]
+        [Alias("CurrencySymbol")]
+        [String]$currency
+    )
+    
+    begin {
+        $apiData=[PSCustomObject]@{
+            URL = "https://www.goldapi.io/api/$symbol/$currency"
+            HEADERS = @{
+                "x-access-token" = "goldapi-7e15a177b8759529f98f464b67e7017d-io"
+                "Content-Type"   = "application/json"
+            }
+        }
+    }
+    process 
+    {
+        try 
+        {
+            Invoke-RestMethod -Uri $($apiData.URL) -Headers $($apiData.HEADERS) -Method GET
+        }
+        catch {
+            Write-Host "Error: $($_.Exception.Message)"
+        }
+    }
+    
+    end {
+        
+    }
+}
+
+Get-MetalPrice -MetalSymbol "XAU" -CurrencySymbol "PLN"
+Get-MetalPrice -MetalSymbol "XAG" -CurrencySymbol "PLN"
+Get-MetalPrice -MetalSymbol "XPT" -CurrencySymbol "PLN"
+Get-MetalPrice -MetalSymbol "XPD" -CurrencySymbol "PLN"
+
+
