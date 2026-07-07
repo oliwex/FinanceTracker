@@ -1,6 +1,3 @@
-#TODO:Trzeba ukryć apikey. Jak to zrobić w ładny sposób?
-
-#Pobrnie informacji o cenie surowca
 function Get-MetalPrice 
 {
     [CmdletBinding()]
@@ -41,9 +38,5 @@ function Get-MetalPrice
     }
 }
 
-Get-MetalPrice -MetalSymbol "XAU" -CurrencySymbol "PLN"
-Get-MetalPrice -MetalSymbol "XAG" -CurrencySymbol "PLN"
-Get-MetalPrice -MetalSymbol "XPT" -CurrencySymbol "PLN"
-Get-MetalPrice -MetalSymbol "XPD" -CurrencySymbol "PLN"
 
-
+# Pester Te
