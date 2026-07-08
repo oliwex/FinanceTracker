@@ -29,10 +29,10 @@ $totalMoneyStatic=[PSCustomObject]@{
 
 #Zapytania do kursów walut
 $moneyDataFromApi=[PSCustomObject]@{
-    EUR_TO_PLN = (Invoke-RestMethod -Uri "https://api.nbp.pl/api/exchangerates/rates/A/EUR?format=json" -Method GET).rates.mid
-    USD_TO_PLN = (Invoke-RestMethod -Uri "https://api.nbp.pl/api/exchangerates/rates/A/USD?format=json" -Method GET).rates.mid 
-    GBP_TO_PLN = (Invoke-RestMethod -Uri "https://api.nbp.pl/api/exchangerates/rates/A/GBP?format=json" -Method GET).rates.mid 
-    CHF_TO_PLN = (Invoke-RestMethod -Uri "https://api.nbp.pl/api/exchangerates/rates/A/CHF?format=json" -Method GET).rates.mid 
+    EUR_TO_PLN = Invoke-NBPRestAPI -PathToApi "https://api.nbp.pl/api/exchangerates/rates/A/EUR?format=json" 
+    USD_TO_PLN = Invoke-NBPRestAPI -PathToApi "https://api.nbp.pl/api/exchangerates/rates/A/USD?format=json" 
+    GBP_TO_PLN = Invoke-NBPRestAPI -PathToApi "https://api.nbp.pl/api/exchangerates/rates/A/GBP?format=json" 
+    CHF_TO_PLN = Invoke-NBPRestAPI -PathToApi "https://api.nbp.pl/api/exchangerates/rates/A/CHF?format=json" 
 }
 #Przeliczenie pieniędzy wedle aktualnych kursów
 $totalMoneyDynamic=[PSCustomObject]@{
