@@ -2,6 +2,10 @@
 #funkcje
 . "$PSScriptRoot\Money\Get-MoneyFromFile.ps1"
 . "$PSScriptRoot\Money\Group-MoneyToUSD.ps1"
+. "$PSScriptRoot\Money\Invoke-NBPRestAPI.ps1"
+
+. "$PSScriptRoot\Metal\Get-TavexPrices.ps1"
+. "$PSScriptRoot\Metal\Get-MetalPrice.ps1"
 #sciezki
 $MONEY_PATH="E:\GIT\FinanceTracker\Money\money.txt"
 
@@ -44,12 +48,23 @@ $totalMoneyDynamic=[PSCustomObject]@{
 }
 #Sumaryczna ilość pieniedzy
 
-#PODSUMOWANIE
+#PODSUMOWANIE pieniędzy
 $totalMoneyStatic
 
 "--------------"
-
-
 $totalMoneyDynamic
 
-#>
+#Sztabki złota
+#Pobranie danych z pliku dotyczących sztabek złota
+
+#Pobranie cen złota wedle aktualnych kursów
+
+#Pobranie cen sztabek złota 1oz
+$urlGoldBar = 'https://tavex.pl/zloto/zlote-monety-bulionowe/page/1?filter%5Bweight%5D%5B0%5D=1&meta%5B0%5D=tax-gold%3Azlote-monety-bulionowe&sorting=recommended'
+
+Get-TAVEXPrices -TavexURL $urlGoldBar
+
+#Pobranie cen monet złotych 1oz
+$urlCoin = 'https://tavex.pl/zloto/zlote-sztabki/?filter%5Bweight%5D%5B0%5D=1&meta%5B0%5D=tax-gold%3Azlote-sztabki&sorting=recommended'
+
+Get-TAVEXPrices -TavexURL $urlCoin
