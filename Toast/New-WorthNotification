@@ -2,15 +2,20 @@ function New-WorthNotification
 {
     [CmdletBinding()]
     param (
-        [Parameter(HelpMessage = "FilePath to get computernames",Position=0)]
-        [Alias("FilePath")]
-        [string]$path
+        [Parameter(HelpMessage = "3 Strings to pass to Notification",Position=0)]
+        [Alias("DOLLAR")]
+        [string]$dollarValue,
+        [Parameter(HelpMessage = "3 Strings to pass to Notification",Position=0)]
+        [Alias("EURO")]
+        [string]$euroValue,
+        [Parameter(HelpMessage = "3 Strings to pass to Notification",Position=0)]
+        [Alias("GOLD")]
+        [string]$goldValue
     )
 
-$logo = New-BTImage -Source 'E:\GIT\FinanceTracker\Toast\money.png'
+$logo = New-BTImage -Source "money.png"
 $header = New-BTHeader -Title "Informacja o twoich pieniądzach"
 
-New-BurntToastNotification -Text "Oszczędności w DOLLARACH","Oszczędności w EURO","Oszczędności w ZŁOCIE" -AppLogo $logo -Header $header -Attribution "Sumaryczna wartość:"
+New-BurntToastNotification -Text "Zysk w DOLLARACH: $dollarValue","Zysk w EURO: $euroValue","Zysk w ZŁOCIE: $goldValue" -AppLogo $logo -Header $header -Attribution "Sumaryczna wartość:"
 
 }
-New-WorthNotification

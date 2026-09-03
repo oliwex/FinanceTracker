@@ -6,23 +6,27 @@
 
 . "$PSScriptRoot\Metal\Get-TavexPrices.ps1"
 . "$PSScriptRoot\Metal\Get-MetalPrice.ps1"
+
+. "$PSScriptRoot\Toast\New-WorthNotification"
+
 #sciezki
 $MONEY_PATH="E:\GIT\FinanceTracker\Money\money.txt"
 $METAL_PATH="E:\GIT\FinanceTracker\Metal\metal.txt"
 
 #zmienne
+<#
 $staticRates=[PSCustomObject]@{ #IDEA:Konfiguracja aktualna na 26.12.2023 - https://nbp.pl/archiwum-kursow/tabela-nr-248-a-nbp-2023-z-dnia-2023-12-22/
     EUR_TO_PLN = 4.35
     USD_TO_PLN = 4.00
     GBP_TO_PLN = 5.00
     CHF_TO_PLN = 4.60
 }
-
+#>
 #endregion CONFIGURATION
 
 #Pobranie danych z pliku txt i pogrupowanie wedle walut
 $totalMoney=Get-MoneyFromFile -Path $MONEY_PATH | Group-MoneyToUSD
-
+<#
 #Przeliczenie pieniędzy wedle kursów z dnia 26.12.2023
 $totalMoneyStatic=[PSCustomObject]@{
     EUR = $totalMoney.EUR * $staticRates.EUR_TO_PLN
@@ -31,6 +35,9 @@ $totalMoneyStatic=[PSCustomObject]@{
     CHF = $totalMoney.CHF * $staticRates.CHF_TO_PLN
 
 }
+
+#>
+
 
 #Zapytania do kursów walut
 $moneyDataFromApi=[PSCustomObject]@{
@@ -50,10 +57,16 @@ $totalMoneyDynamic=[PSCustomObject]@{
 #Sumaryczna ilość pieniedzy
 
 #PODSUMOWANIE pieniędzy
-$totalMoneyStatic
+#$totalMoneyStatic
 
 "-------------------------"
-$totalMoneyDynamic
+#$totalMoneyDynamic
+
+
+
+
+New-WorthNotification -DOLLAR $totalMoneyDynamic.USD -EURO $totalMoneyDynamic.EUR
+<#
 
 #Sztabki złota
 #Pobranie danych z pliku dotyczących sztabek złota
@@ -71,3 +84,4 @@ Get-TAVEXPrices -TavexURL $urlGoldBar
 $urlCoin = 'https://tavex.pl/zloto/zlote-sztabki/?filter%5Bweight%5D%5B0%5D=1&meta%5B0%5D=tax-gold%3Azlote-sztabki&sorting=recommended'
 
 Get-TAVEXPrices -TavexURL $urlCoin
+#>
