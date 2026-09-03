@@ -1,0 +1,32 @@
+function Get-MetalFromFile
+{
+    [CmdletBinding()]
+    param (
+        [Parameter(HelpMessage = "FilePath to get computernames",Position=0)]
+        [Alias("FilePath")]
+        [string]$path
+    )
+    foreach($line in [System.IO.File]::ReadLines($path))
+    {
+        if ($line -like "*Element:Metal*")
+        {
+            "Metal"
+        }
+        elseif  ($line -like "*Gold*")
+        {
+            $groupName=$line
+        }
+        else
+        {
+            [PSCustomObject]@{
+                METAL = $groupName
+                AMOUNT = $line.Split(":")[0]
+                TYPE = $line.Split(":")[1]
+            }
+        }
+
+    }
+}
+
+
+Get-MetalFromFile -path "E:\GIT\FinanceTracker\Metal\metal.txt"
