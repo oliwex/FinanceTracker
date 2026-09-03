@@ -37,6 +37,3 @@ function Get-MetalPrice
         
     }
 }
-
-
-# Pester Te

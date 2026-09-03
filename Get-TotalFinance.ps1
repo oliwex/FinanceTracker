@@ -2,8 +2,13 @@
 #funkcje
 . "$PSScriptRoot\Money\Get-MoneyFromFile.ps1"
 . "$PSScriptRoot\Money\Group-MoneyToUSD.ps1"
+. "$PSScriptRoot\Money\Invoke-NBPRestAPI.ps1"
+
+. "$PSScriptRoot\Metal\Get-TavexPrices.ps1"
+. "$PSScriptRoot\Metal\Get-MetalPrice.ps1"
 #sciezki
 $MONEY_PATH="E:\GIT\FinanceTracker\Money\money.txt"
+$METAL_PATH="E:\GIT\FinanceTracker\Metal\metal.txt"
 
 #zmienne
 $staticRates=[PSCustomObject]@{ #IDEA:Konfiguracja aktualna na 26.12.2023 - https://nbp.pl/archiwum-kursow/tabela-nr-248-a-nbp-2023-z-dnia-2023-12-22/
@@ -44,12 +49,25 @@ $totalMoneyDynamic=[PSCustomObject]@{
 }
 #Sumaryczna ilość pieniedzy
 
-#PODSUMOWANIE
+#PODSUMOWANIE pieniędzy
 $totalMoneyStatic
 
-"--------------"
-
-
+"-------------------------"
 $totalMoneyDynamic
 
-#>
+#Sztabki złota
+#Pobranie danych z pliku dotyczących sztabek złota
+Get-MetalFromFile -path $METAL_PATH
+
+#Pobranie cen złota wedle aktualnych kursów
+Get-MetalPrice -symbol XAU -currency PLN
+
+#Pobranie cen sztabek złota 1oz ze sklepu TAVEX
+$urlGoldBar = 'https://tavex.pl/zloto/zlote-monety-bulionowe/page/1?filter%5Bweight%5D%5B0%5D=1&meta%5B0%5D=tax-gold%3Azlote-monety-bulionowe&sorting=recommended'
+
+Get-TAVEXPrices -TavexURL $urlGoldBar
+
+#Pobranie cen monet złotych 1oz ze sklepu TAVEX
+$urlCoin = 'https://tavex.pl/zloto/zlote-sztabki/?filter%5Bweight%5D%5B0%5D=1&meta%5B0%5D=tax-gold%3Azlote-sztabki&sorting=recommended'
+
+Get-TAVEXPrices -TavexURL $urlCoin

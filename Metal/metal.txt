@@ -1,0 +1,4 @@
+Element:Metal
+Gold
+18:coin
+2:bar
