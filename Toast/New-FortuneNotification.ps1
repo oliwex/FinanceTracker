@@ -2,21 +2,24 @@ function New-FortuneNotification
 {
     [CmdletBinding()]
     param (
-        [Parameter(HelpMessage = "3 Strings to pass to Notification")]
+        [Parameter(Mandatory,HelpMessage = "USD Fortune")]
         [Alias("DOLLAR")]
         $dollarValue,
-        [Parameter(HelpMessage = "3 Strings to pass to Notification")]
+        [Parameter(Mandatory,HelpMessage = "EURO Fortune")]
         [Alias("EURO")]
         $euroValue,
-        [Parameter(HelpMessage = "3 Strings to pass to Notification")]
+        [Parameter(Mandatory,HelpMessage = "GOLD Fortune")]
         [Alias("GOLD")]
-        $goldValue
+        $goldValue,
+        [Parameter(Mandatory,HelpMessage = "All Fortune")]
+        [Alias("Sum")]
+        $all
+
     )
 
-$logo = New-BTImage -Source "money.png"
+$logo = New-BTImage -Source "$([System.Environment]::CurrentDirectory)\Toast\money.png"
 $header = New-BTHeader -Title "Informacja o twoich pieniądzach"
 
-$sum=$dollarValue+$euroValue+$goldValue
-
-New-BurntToastNotification -Text "Zysk w DOLLARACH: $dollarValue","Zysk w EURO: $euroValue","Zysk w ZŁOCIE: $goldValue" -AppLogo $logo -Header $header -Attribution "Sumaryczna wartość: $sum"
+New-BurntToastNotification -Text "Zysk w DOLLARACH: $dollarValue","Zysk w EURO: $euroValue","Zysk w ZŁOCIE: $goldValue" -AppLogo $logo -Header $header -Attribution "Sumaryczna wartość: $all"
 }
+

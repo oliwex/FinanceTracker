@@ -2,12 +2,12 @@ function Get-MetalPrice
 {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,HelpMessage="Metal symbol to get from API")]
         [ValidateSet("XAU","XAG","XPT","XPD")]
         [Alias("MetalSymbol")]
         [String]$symbol,
         
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,HelpMessage="Currency symbol for translating metal price from API")]
         [ValidateSet("PLN","USD","EUR")]
         [Alias("CurrencySymbol")]
         [String]$currency

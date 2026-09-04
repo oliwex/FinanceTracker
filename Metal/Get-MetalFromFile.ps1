@@ -2,7 +2,7 @@ function Get-MetalFromFile
 {
     [CmdletBinding()]
     param (
-        [Parameter(HelpMessage = "FilePath to get computernames",Position=0)]
+        [Parameter(Mandatory,HelpMessage = "FilePath to get Metal from File")]
         [Alias("FilePath")]
         [string]$path
     )

@@ -1,12 +1,12 @@
 function Group-MoneyToUSD {
     [CmdletBinding()]
     param (
-        [Parameter(HelpMessage = "FilePath to get computernames",Position=0,ValueFromPipeline)]
+        [Parameter(Mandatory,ValueFromPipeline,HelpMessage = "FilePath to get computernames")]
         [Alias("MoneyData")]
         $moneyDataFromFile
     )
     begin {
-        # Możesz tu przygotować zmienne, liczniki, bufor itd.
+
         $usdTotal = 0
         $eurTotal = 0
         $gbpTotal = 0
@@ -14,7 +14,7 @@ function Group-MoneyToUSD {
     }
 
     process {
-        # Każdy rekord z pipeline trafia tutaj
+
         switch ($moneyDataFromFile.CURRENCY) {
 
             "USD" {
@@ -36,7 +36,7 @@ function Group-MoneyToUSD {
     }
 
     end {
-        # Wynik końcowy po przetworzeniu całego pipeline
+
         [PSCustomObject]@{
             USD  = $usdTotal
             EUR  = $eurTotal
