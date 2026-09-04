@@ -1,4 +1,4 @@
-function Get-TAVEXPrices 
+sfunction Get-TAVEXPrices 
 {
     [CmdletBinding()]
     param (

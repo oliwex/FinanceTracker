@@ -1,10 +1,8 @@
-#TODO:W ostatnim else zrobić parser dla waluty
-
 function Get-MoneyFromFile
 {
     [CmdletBinding()]
     param (
-        [Parameter(HelpMessage = "FilePath to get computernames",Position=0)]
+        [Parameter(Mandatory,HelpMessage = "FilePath to get computernames")]
         [Alias("FilePath")]
         [string]$path
     )
