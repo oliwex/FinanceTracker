@@ -9,6 +9,8 @@
 
 . "$PSScriptRoot\Toast\New-FortuneNotification.ps1"
 
+. "$PSScriptRoot\Audio\New-AudioNotification.ps1"
+
 #sciezki
 $MONEY_PATH="E:\GIT\FinanceTracker\Money\money.txt"
 $METAL_PATH="E:\GIT\FinanceTracker\Metal\metal.txt"
@@ -63,6 +65,7 @@ $totalFortune=[PSCustomObject]@{
 
 New-FortuneNotification -DOLLAR $totalFortune.USD -EURO $totalFortune.EUR -GOLD $totalFortune.GOLD -Sum $($totalFortune.GOLD+$totalFortune.USD+$totalFortune.EUR) #TODO:Jeśli na przestrzni odczytów jest zysk to strzałka w górę, jeśli strata to strzałka w dół
 
+New-AudioNotification -Text "Kasa to: 14124 złotych"
+
 #endregion RESULT
 
- 
