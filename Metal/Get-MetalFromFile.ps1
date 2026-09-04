@@ -27,6 +27,3 @@ function Get-MetalFromFile
 
     }
 }
-
-
-Get-MetalFromFile -path "E:\GIT\FinanceTracker\Metal\metal.txt"

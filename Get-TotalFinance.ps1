@@ -6,8 +6,9 @@
 
 . "$PSScriptRoot\Metal\Get-TavexPrices.ps1"
 . "$PSScriptRoot\Metal\Get-MetalPrice.ps1"
+. "$PSScriptRoot\Metal\Get-MetalFromFile.ps1"
 
-. "$PSScriptRoot\Toast\New-WorthNotification"
+. "$PSScriptRoot\Toast\New-FortuneNotification.ps1"
 
 #sciezki
 $MONEY_PATH="E:\GIT\FinanceTracker\Money\money.txt"
@@ -24,6 +25,7 @@ $staticRates=[PSCustomObject]@{ #IDEA:Konfiguracja aktualna na 26.12.2023 - http
 #>
 #endregion CONFIGURATION
 
+#region MONEY
 #Pobranie danych z pliku txt i pogrupowanie wedle walut
 $totalMoney=Get-MoneyFromFile -Path $MONEY_PATH | Group-MoneyToUSD
 <#
@@ -35,9 +37,7 @@ $totalMoneyStatic=[PSCustomObject]@{
     CHF = $totalMoney.CHF * $staticRates.CHF_TO_PLN
 
 }
-
 #>
-
 
 #Zapytania do kursów walut
 $moneyDataFromApi=[PSCustomObject]@{
@@ -63,25 +63,38 @@ $totalMoneyDynamic=[PSCustomObject]@{
 #$totalMoneyDynamic
 
 
+#endregion MONEY
 
-
-New-WorthNotification -DOLLAR $totalMoneyDynamic.USD -EURO $totalMoneyDynamic.EUR
-<#
+#region GOLD
 
 #Sztabki złota
 #Pobranie danych z pliku dotyczących sztabek złota
-Get-MetalFromFile -path $METAL_PATH
+$result=Get-MetalFromFile -path $METAL_PATH
+
 
 #Pobranie cen złota wedle aktualnych kursów
-Get-MetalPrice -symbol XAU -currency PLN
+$goldPrice=Get-MetalPrice -symbol XAU -currency PLN | Select-Object timestamp,metal,currency,exchange,price,ch,ask,bid,price_gram_24k
+
+
 
 #Pobranie cen sztabek złota 1oz ze sklepu TAVEX
-$urlGoldBar = 'https://tavex.pl/zloto/zlote-monety-bulionowe/page/1?filter%5Bweight%5D%5B0%5D=1&meta%5B0%5D=tax-gold%3Azlote-monety-bulionowe&sorting=recommended'
+#$urlGoldBar = 'https://tavex.pl/zloto/zlote-monety-bulionowe/page/1?filter%5Bweight%5D%5B0%5D=1&meta%5B0%5D=tax-gold%3Azlote-monety-bulionowe&sorting=recommended'
 
-Get-TAVEXPrices -TavexURL $urlGoldBar
+#Get-TAVEXPrices -TavexURL $urlGoldBar
 
 #Pobranie cen monet złotych 1oz ze sklepu TAVEX
-$urlCoin = 'https://tavex.pl/zloto/zlote-sztabki/?filter%5Bweight%5D%5B0%5D=1&meta%5B0%5D=tax-gold%3Azlote-sztabki&sorting=recommended'
+#$urlCoin = 'https://tavex.pl/zloto/zlote-sztabki/?filter%5Bweight%5D%5B0%5D=1&meta%5B0%5D=tax-gold%3Azlote-sztabki&sorting=recommended'
 
-Get-TAVEXPrices -TavexURL $urlCoin
+#Get-TAVEXPrices -TavexURL $urlCoin
 #>
+
+#endregion GOLD
+
+#region RESULT
+
+
+#$sum=([Math]::Round($($goldPrice.price*$([double]$result.AMOUNT)),2))
+
+New-FortuneNotification -DOLLAR $totalMoneyDynamic.USD -EURO $totalMoneyDynamic.EUR -GOLD $([Math]::Round($($goldPrice.price*$result.AMOUNT),2))
+
+#endregion RESULT
