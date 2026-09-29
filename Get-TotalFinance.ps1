@@ -74,24 +74,22 @@ $fortuneValueFromRegistry=Get-RegistryValue -RegistryPath "HKCU:\FORTUNE"
 
     New-AudioNotification -Text "Kasa to: 14124"
 
-    $totalFortune.PSObject.Properties | New-RegistryValue
-
-
-   <#
-   if ($fortuneValueFromRegistry -ne $null)
+    
+   if (($fortuneValueFromRegistry.USD -ne 0) -and ($fortuneValueFromRegistry.EUR -ne 0) -and ($fortuneValueFromRegistry.GOLD -ne 0))
     {
         #Dane są w rejestrze
-
+        "Dane są w rejestrze"
         #Podmiana wartości z rejestru, wartościami odczytanymi z sieci
     }
     else 
     {
 
         #Danych nie ma w rejestrze
-        $totalFortune.PSObject.Properties |  New-RegistryValue
+        
         #Zapisanie danych odczytanych z sieci do rejestru
+        $totalFortune.PSObject.Properties | New-RegistryValue
     }
-   #>
+   
    
     
 #    Start-Sleep -Seconds $(3600) #Odczekanie godziny na kolejny odczyt
