@@ -2,7 +2,7 @@ function New-RegistryValue
 {
     [CmdletBinding()]
     param (
-        [Parameter(ValueFromPipeline)]
+        [Parameter(ValueFromPipeline,HelpMessage = "PsCustomObject with access by .PSObject.Properties to save data to registry")]
         $fortune
     )
 
@@ -29,6 +29,8 @@ $total=[PSCustomObject]@{
     GOLD = 789
 }
 #>
+
+
 
 
 #$total.PsObject.Properties

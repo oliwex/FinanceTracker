@@ -4,24 +4,43 @@ function Get-RegistryValue
 {
     [CmdletBinding()]
     param (
-        [Parameter(ValueFromPipeline)]
+        [Parameter(Mandatory=$true,HelpMessage="RegistryPath to save fortune data")]
+        [Alias("RegistryPath")]
         $fortunePath
     )
-    $result=[PSCustomObject]@{}
-    if(Test-RegistryKeyValue -Path "$fortunePath\USD" -Name "USD")
+    $fortuneObject=[PSCustomObject]@{}
+    $fortuneValueUSD=if(Test-RegistryKeyValue -Path "$fortunePath\USD" -Name "USD")
     {
-       $result | Add-Member -MemberType NoteProperty -Name USD -Value $(Get-ItemPropertyValue -Path "$fortunePath\USD" -Name USD)
+        $(Get-ItemPropertyValue -Path "$fortunePath\USD" -Name USD)
     }
-    if(Test-RegistryKeyValue -Path "$fortunePath\EUR" -Name "EUR")
+    else 
     {
-        $result | Add-Member -MemberType NoteProperty -Name EUR -Value $(Get-ItemPropertyValue -Path "$fortunePath\EUR" -Name EUR)
+        0
     }
-    if(Test-RegistryKeyValue -Path "$fortunePath\GOLD" -Name "GOLD")
+    $fortuneObject | Add-Member -MemberType NoteProperty -Name USD -Value $fortuneValueUSD
+
+    $fortuneValueEUR=if(Test-RegistryKeyValue -Path "$fortunePath\EUR" -Name "EUR")
     {
-        $result | Add-Member -MemberType NoteProperty -Name GOLD -Value $(Get-ItemPropertyValue -Path "$fortunePath\GOLD" -Name GOLD)
+        $(Get-ItemPropertyValue -Path "$fortunePath\EUR" -Name EUR)
     }
-    $result
+    else 
+    {
+        0
+    }
+    $fortuneObject | Add-Member -MemberType NoteProperty -Name EUR -Value $fortuneValueEUR
+    
+    $fortuneValueGOLD=if(Test-RegistryKeyValue -Path "$fortunePath\GOLD" -Name "GOLD")
+    {
+        $(Get-ItemPropertyValue -Path "$fortunePath\GOLD" -Name GOLD)
+    }
+    else 
+    {
+        0
+    }
+    $fortuneObject | Add-Member -MemberType NoteProperty -Name GOLD -Value $fortuneValueGOLD
+
+    $fortuneObject
 }
 
 
-#Get-RegistryValue -path "HKCU:\FORTUNE"
+#Get-RegistryValue -RegistryPath "HKCU:\FORTUNE"

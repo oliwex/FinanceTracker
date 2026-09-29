@@ -20,6 +20,6 @@ function New-FortuneNotification
 $logo = New-BTImage -Source "$([System.Environment]::CurrentDirectory)\Toast\money.png"
 $header = New-BTHeader -Title "Informacja o twoich pieniądzach"
 
-New-BurntToastNotification -Text "Zysk w DOLLARACH: $dollarValue","Zysk w EURO: $euroValue","Zysk w ZŁOCIE: $goldValue" -AppLogo $logo -Header $header -Attribution "Sumaryczna wartość: $all"
+New-BurntToastNotification -Text "Zysk w DOLLARACH: $dollarValue","Zysk w EURO: $euroValue","Zysk w ZLOCIE: $goldValue" -AppLogo $logo -Header $header -Attribution "Sumaryczna wartosc: $all"
 }
 
