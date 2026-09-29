@@ -22,4 +22,6 @@ function Get-RegistryValue
     }
     $result
 }
-Get-RegistryValue -fortunePath "HKCU:\FORTUNE"
+
+
+#Get-RegistryValue -path "HKCU:\FORTUNE"

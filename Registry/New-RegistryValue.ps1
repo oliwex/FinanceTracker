@@ -22,16 +22,18 @@ function New-RegistryValue
     }
 }
 
-
+<#
 $total=[PSCustomObject]@{
     USD = 123
     EUR = 456
     GOLD = 789
 }
+#>
+
 
 #$total.PsObject.Properties
 #$total.PsObject.Members.Value
 
 
 
-$total.PSObject.Properties | New-RegistryValue
+#$total.PSObject.Properties | New-RegistryValue
